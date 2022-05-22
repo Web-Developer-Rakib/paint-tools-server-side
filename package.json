@@ -1,0 +1,32 @@
+{
+  "name": "paint-tools-server",
+  "version": "1.0.0",
+  "description": "This is a paint tools selling website.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "start-dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/programming-hero-web-course1/manufacturer-website-server-side-WebDeveloperApolo.git"
+  },
+  "keywords": [
+    "paint",
+    "tools"
+  ],
+  "author": "Rakibul Hassan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/programming-hero-web-course1/manufacturer-website-server-side-WebDeveloperApolo/issues"
+  },
+  "homepage": "https://github.com/programming-hero-web-course1/manufacturer-website-server-side-WebDeveloperApolo#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mongodb": "^4.6.0",
+    "nodemon": "^2.0.16"
+  }
+}
