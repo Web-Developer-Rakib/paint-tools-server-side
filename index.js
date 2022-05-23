@@ -32,6 +32,25 @@ const run = async () => {
         $set: {
           email: usersData.email,
           admin: usersData.admin,
+          name: usersData.name,
+        },
+      };
+      const options = { upsert: true };
+      const result = await usersCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
+      res.send(result);
+    });
+    //Make an admin
+    app.put("/make-admin", async (req, res) => {
+      const usersData = req.body;
+      const email = usersData.usersEmail;
+      const filter = { email: email };
+      const updateDoc = {
+        $set: {
+          admin: usersData.admin,
         },
       };
       const options = { upsert: true };
