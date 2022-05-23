@@ -23,6 +23,7 @@ const run = async () => {
     //Collections
     const usersCollection = client.db("paint_tools").collection("users");
     const productsCollection = client.db("paint_tools").collection("products");
+    const ordersCollection = client.db("paint_tools").collection("orders");
     //Put users info
     app.put("/put-user", async (req, res) => {
       const usersData = req.body;
@@ -87,6 +88,12 @@ const run = async () => {
       const query = { _id: ObjectId(id) };
       const product = await productsCollection.findOne(query);
       res.send(product);
+    });
+    //Post orders info
+    app.post("/post-order", async (req, res) => {
+      const ordersData = req.body;
+      const result = await ordersCollection.insertOne(ordersData);
+      res.send(result);
     });
   } finally {
     //Connection continue
