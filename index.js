@@ -22,10 +22,30 @@ const run = async () => {
     await client.connect();
     //Collections
     const usersCollection = client.db("paint_tools").collection("users");
+    const productsCollection = client.db("paint_tools").collection("products");
     //Put users info
     app.put("/put-user", async (req, res) => {
       const usersData = req.body;
-      const result = await usersCollection.insertOne(usersData);
+      const email = usersData.email;
+      const filter = { email: email };
+      const updateDoc = {
+        $set: {
+          email: usersData.email,
+          admin: usersData.admin,
+        },
+      };
+      const options = { upsert: true };
+      const result = await usersCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
+      res.send(result);
+    });
+    // Create product
+    app.post("/add-product", async (req, res) => {
+      const productsData = req.body;
+      const result = await productsCollection.insertOne(productsData);
       res.send(result);
     });
   } finally {
