@@ -48,6 +48,13 @@ const run = async () => {
       const result = await productsCollection.insertOne(productsData);
       res.send(result);
     });
+    //Get Users
+    app.get("/users", async (req, res) => {
+      const query = {};
+      const cursor = usersCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
   } finally {
     //Connection continue
   }
