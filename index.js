@@ -41,6 +41,7 @@ const run = async () => {
     const usersCollection = client.db("paint_tools").collection("users");
     const productsCollection = client.db("paint_tools").collection("products");
     const ordersCollection = client.db("paint_tools").collection("orders");
+    const reviewsCollection = client.db("paint_tools").collection("reviews");
     //Put users info
     app.put("/put-user", async (req, res) => {
       const usersData = req.body;
@@ -159,6 +160,13 @@ const run = async () => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const result = await productsCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    //Post a review
+    app.post("/add-review", async (req, res) => {
+      const reviewsData = req.body;
+      const result = await reviewsCollection.insertOne(reviewsData);
       res.send(result);
     });
   } finally {
