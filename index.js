@@ -5,10 +5,19 @@ const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const app = express();
 const port = process.env.PORT || 5000;
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const jwt = require("jsonwebtoken");
 //Middlewares
 app.use(cors());
 app.use(express.json());
 
+// JWT tocken
+app.post("/jwt-token", (req, res) => {
+  const user = req.body;
+  const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: "1d",
+  });
+  res.send({ accessToken });
+});
 //Verify JWT
 function verifyJWT(req, res, next) {
   const authHeader = req.headers.authorization;
