@@ -169,6 +169,13 @@ const run = async () => {
       const result = await reviewsCollection.insertOne(reviewsData);
       res.send(result);
     });
+    //Get all reviews
+    app.get("/reviews", async (req, res) => {
+      const query = {};
+      const cursor = reviewsCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
   } finally {
     //Connection continue
   }
