@@ -62,6 +62,7 @@ const run = async () => {
           admin: usersData.admin,
           review: usersData.review,
           name: usersData.name,
+          address: usersData.address,
         },
       };
       const options = { upsert: true };
@@ -195,6 +196,44 @@ const run = async () => {
     app.post("/add-review", async (req, res) => {
       const reviewsData = req.body;
       const result = await reviewsCollection.insertOne(reviewsData);
+      res.send(result);
+    });
+    //Update users info
+    app.put("/update-user", async (req, res) => {
+      const usersInfo = req.body;
+      const email = usersInfo.email;
+      const filter = { email: email };
+      const updateDoc = {
+        $set: {
+          name: usersInfo.name,
+          address: usersInfo.address,
+        },
+      };
+      const options = { upsert: true };
+      const result = await usersCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
+      res.send(result);
+    });
+    //Update reviewers info
+    app.put("/update-reviewers-info", async (req, res) => {
+      const reviewersInfo = req.body;
+      const email = reviewersInfo.email;
+      const filter = { reviewersEmail: email };
+      const updateDoc = {
+        $set: {
+          reviewersName: reviewersInfo.name,
+          reviewersPhoto: reviewersInfo.photoURL,
+        },
+      };
+      const options = { upsert: false };
+      const result = await reviewsCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
       res.send(result);
     });
     //Get all reviews
