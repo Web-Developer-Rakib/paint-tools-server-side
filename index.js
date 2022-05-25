@@ -60,6 +60,7 @@ const run = async () => {
         $set: {
           email: usersData.email,
           admin: usersData.admin,
+          review: usersData.review,
           name: usersData.name,
         },
       };
@@ -79,6 +80,24 @@ const run = async () => {
       const updateDoc = {
         $set: {
           admin: usersData.admin,
+        },
+      };
+      const options = { upsert: true };
+      const result = await usersCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
+      res.send(result);
+    });
+    //Update review status
+    app.put("/update-review-status", async (req, res) => {
+      const reviewStatus = req.body;
+      const email = reviewStatus.email;
+      const filter = { email: email };
+      const updateDoc = {
+        $set: {
+          review: reviewStatus.review,
         },
       };
       const options = { upsert: true };
