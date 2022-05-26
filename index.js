@@ -170,7 +170,7 @@ const run = async () => {
     });
 
     // Update payment status
-    app.patch("/update-payment-status/:id", verifyJWT, async (req, res) => {
+    app.patch("/update-payment-status/:id", async (req, res) => {
       const id = req.params.id;
       const filter = { _id: ObjectId(id) };
       const updatedDoc = {
@@ -230,6 +230,24 @@ const run = async () => {
       };
       const options = { upsert: false };
       const result = await reviewsCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
+      res.send(result);
+    });
+    //Update shipping status
+    app.put("/update-shipping-status", async (req, res) => {
+      const shipping = req.body;
+      const id = shipping.id;
+      const filter = { _id: ObjectId(id) };
+      const updateDoc = {
+        $set: {
+          shift: shipping.shift,
+        },
+      };
+      const options = { upsert: false };
+      const result = await ordersCollection.updateOne(
         filter,
         updateDoc,
         options
