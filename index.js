@@ -156,18 +156,18 @@ const run = async () => {
       const order = await ordersCollection.findOne(query);
       res.send(order);
     });
-    // //Create payment intent
-    // app.post("/create-payment-intent", async (req, res) => {
-    //   const product = req.body;
-    //   const price = product.totalPrice;
-    //   const amount = price * 100;
-    //   const paymentIntent = await stripe.paymentIntents.create({
-    //     amount: amount,
-    //     currency: "usd",
-    //     payment_method_types: ["card"],
-    //   });
-    //   res.send({ clientSecret: paymentIntent.client_secret });
-    // });
+    //Create payment intent
+    app.post("/create-payment-intent", async (req, res) => {
+      // const product = req.body;
+      // const price = product.totalPrice; // Invalid integer: NaN issue;
+      const amount = 100 * 100;
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: amount,
+        currency: "usd",
+        payment_method_types: ["card"],
+      });
+      res.send({ clientSecret: paymentIntent.client_secret });
+    });
 
     // Update payment status
     app.patch("/update-payment-status/:id", async (req, res) => {
