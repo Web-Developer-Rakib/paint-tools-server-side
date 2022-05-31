@@ -123,7 +123,7 @@ const run = async () => {
       res.send(result);
     });
     //Get all Products
-    app.get("/products", verifyJWT, async (req, res) => {
+    app.get("/products", async (req, res) => {
       const query = {};
       const cursor = productsCollection.find(query);
       const result = await cursor.toArray();
@@ -257,7 +257,7 @@ const run = async () => {
       res.send(result);
     });
     //Get all reviews
-    app.get("/reviews", verifyJWT, async (req, res) => {
+    app.get("/reviews", async (req, res) => {
       const query = {};
       const cursor = reviewsCollection.find(query);
       const result = await cursor.toArray();
