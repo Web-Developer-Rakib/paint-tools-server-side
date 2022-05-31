@@ -11,9 +11,9 @@ app.use(cors());
 app.use(express.json());
 
 // JWT tocken
-app.post("/jwt-token", (req, res) => {
-  const user = req.body;
-  const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+app.post("/jwt-token/:email", (req, res) => {
+  const user = req.params.email;
+  const accessToken = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: "1d",
   });
   res.send({ accessToken });
@@ -158,15 +158,17 @@ const run = async () => {
     });
     //Create payment intent
     app.post("/create-payment-intent", async (req, res) => {
-      // const product = req.body;
-      // const price = product.totalPrice; // Invalid integer: NaN issue;
-      const amount = 100 * 100;
-      const paymentIntent = await stripe.paymentIntents.create({
-        amount: amount,
-        currency: "usd",
-        payment_method_types: ["card"],
-      });
-      res.send({ clientSecret: paymentIntent.client_secret });
+      const product = req.body;
+      const price = product.totalPrice;
+      if (price) {
+        const amount = 100 * price;
+        const paymentIntent = await stripe.paymentIntents.create({
+          amount: amount,
+          currency: "usd",
+          payment_method_types: ["card"],
+        });
+        res.send({ clientSecret: paymentIntent.client_secret });
+      }
     });
 
     // Update payment status
