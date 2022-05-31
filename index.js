@@ -116,21 +116,21 @@ const run = async () => {
       res.send(result);
     });
     //Get all Users
-    app.get("/users", async (req, res) => {
+    app.get("/users", verifyJWT, async (req, res) => {
       const query = {};
       const cursor = usersCollection.find(query);
       const result = await cursor.toArray();
       res.send(result);
     });
     //Get all Products
-    app.get("/products", async (req, res) => {
+    app.get("/products", verifyJWT, async (req, res) => {
       const query = {};
       const cursor = productsCollection.find(query);
       const result = await cursor.toArray();
       res.send(result);
     });
     //Get a single Product
-    app.get("/product/:id", async (req, res) => {
+    app.get("/product/:id", verifyJWT, async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const product = await productsCollection.findOne(query);
@@ -143,14 +143,14 @@ const run = async () => {
       res.send(result);
     });
     //Get all orders info
-    app.get("/orders", async (req, res) => {
+    app.get("/orders", verifyJWT, async (req, res) => {
       const query = {};
       const cursor = ordersCollection.find(query);
       const result = await cursor.toArray();
       res.send(result);
     });
     //Get a single order info
-    app.get("/order/:id", async (req, res) => {
+    app.get("/order/:id", verifyJWT, async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const order = await ordersCollection.findOne(query);
@@ -257,7 +257,7 @@ const run = async () => {
       res.send(result);
     });
     //Get all reviews
-    app.get("/reviews", async (req, res) => {
+    app.get("/reviews", verifyJWT, async (req, res) => {
       const query = {};
       const cursor = reviewsCollection.find(query);
       const result = await cursor.toArray();
